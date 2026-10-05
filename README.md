@@ -12,4 +12,4 @@ From 2020 to 2025, a total of ₹2,59,797.75 Cr was invested in 180 startups. I 
 
 Overall, from this analysis I nderstand multiple things that are related to startup that what are the investment types for investing money on startup, concept of subverical,industry verticals and funding trends.
 
-link : https://lupanesanskar-indian-startup-funding-analysis--2-startup-jc5tvo.streamlit.app/
+Link : https://lupanesanskar-indian-startup-funding-analysis--2-startup-jc5tvo.streamlit.app/
