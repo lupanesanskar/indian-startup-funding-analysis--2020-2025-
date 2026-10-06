@@ -74,9 +74,41 @@ def load_overall_analysis():
 
 def startup_overview():
     st.title("Startup Analysis")
+
     col0,col1=st.columns(2)
+    # highest funded startup
     with col0:
         st.metric("Highest Funded Startup (2020-2025)",df.groupby("Startup")["Amount(Crores)"].sum().idxmax()+" (₹9279.18Cr)")
+        st.write("")
+    col1,col2,col3=st.columns(3)
+    # highest funded startup in 2020
+    with col1:
+        st.metric("Highest Funded Startup in 2020",df[df["Year"]==2020].groupby("Startup")["Amount(Crores)"].sum().idxmax()+" \n(₹5216Cr)")
+        st.write("")
+    # highest funded startup in 2021
+    with col2:
+        st.metric("Highest Funded Startup in 2021",df[df["Year"]==2021].groupby("Startup")["Amount(Crores)"].sum().idxmax()+" \n(₹4239Cr)")
+        st.write("")
+    # highest funded startup in 2022
+    with col3:
+        st.metric("Highest Funded Startup in 2022",df[df["Year"]==2022].groupby("Startup")["Amount(Crores)"].sum().idxmax()+" \n(₹6926Cr)")
+        st.write("")
+
+    col1,col2,col3=st.columns(3)
+    # highest funded startup in 2023
+    with col1:
+        st.metric("Highest Funded Startup in 2023",df[df["Year"]==2023].groupby("Startup")["Amount(Crores)"].sum().idxmax()+" (₹4053Cr)")
+        st.write("")
+    # highest funded startup in 2024
+    with col2:
+        st.metric("Highest Funded Startup in 2020",df[df["Year"]==2024].groupby("Startup")["Amount(Crores)"].sum().idxmax()+" \n(₹5403Cr)")
+        st.write("")
+    # highest funded startup in 2025
+    with col3:
+        st.metric("Highest Funded Startup in 2020",df[df["Year"]==2025].groupby("Startup")["Amount(Crores)"].sum().idxmax()+" \n(₹4568Cr)")
+        st.write("")
+ 
+
 
 def load_startup(startup):
 
@@ -147,6 +179,21 @@ def load_startup(startup):
     fig5.tight_layout()
     st.pyplot(fig5)
 
+
+    # Investment year wise
+
+    st.subheader("Yearwise Funding")
+    year_wise=startup_df.groupby("Year")["Amount(Crores)"].sum()
+    fig7,ax7=plt.subplots(figsize=(10,5))
+    ax7.bar(year_wise.index,year_wise.values)
+    ax7.set_xlabel("Year")
+    ax7.set_ylabel("Total Funding Amount (Crores)")
+    ax7.set_title("Year-wise Funding")
+    plt.xticks(rotation=45)
+    fig7.tight_layout()
+    st.pyplot(fig7)
+
+
     # Investment type and funding
 
     st.subheader("Funding by Investment Type")
@@ -160,18 +207,6 @@ def load_startup(startup):
     fig6.tight_layout()
     st.pyplot(fig6)
 
-    # Investment year wise
-
-    st.subheader("Yearwise Funding")
-    year_wise=startup_df.groupby("Year")["Amount(Crores)"].sum()
-    fig7,ax7=plt.subplots(figsize=(10,5))
-    ax7.plot(year_wise.index,year_wise.values,marker='o')
-    ax7.set_xlabel("Year")
-    ax7.set_ylabel("Total Funding Amount (Crores)")
-    ax7.set_title("Year-wise Funding")
-    plt.xticks(rotation=45)
-    fig7.tight_layout()
-    st.pyplot(fig7)
 
 def load_investor(investor):
     st.title(investor)
