@@ -107,6 +107,16 @@ def startup_overview():
     with col3:
         st.metric("Highest Funded Startup in 2020",df[df["Year"]==2025].groupby("Startup")["Amount(Crores)"].sum().idxmax()+" \n(₹4568Cr)")
         st.write("")
+
+    # Year wise Funding
+    st.subheader("Year-Wise Funding")
+    yearwise_funding=df.groupby("Year")["Amount(Crores)"].sum()
+    fig1,ax1=plt.subplots(figsize=(11,4))
+    ax1.bar(yearwise_funding.index,yearwise_funding.values)
+    ax1.set_xlabel("Year")
+    ax1.set_ylabel("Funding Amount(Crores)")
+    ax1.set_title("Yearwise Funding")
+    st.pyplot(fig1)   
  
 
 
