@@ -72,6 +72,12 @@ def load_overall_analysis():
     ax4.bar(temp_series.index,temp_series.values)
     st.pyplot(fig4)
 
+def startup_overview():
+    st.title("Startup Analysis")
+    col0,col1=st.columns(2)
+    with col0:
+        st.metric("Highest Funded Startup (2020-2025)",df.groupby("Startup")["Amount(Crores)"].sum().idxmax()+" (₹9279.18Cr)")
+
 def load_startup(startup):
 
     st.title(startup)
@@ -108,13 +114,11 @@ def load_startup(startup):
         st.info("**• Industries**")
         for industry in industries:
             st.write(f" {industry}")
-
     with col2:
         subverticals = startup_df["SubVertical"].dropna().unique().tolist()
         st.info("**• Sub-Verticals**")
         for subvertical in subverticals:
             st.write(f" {subvertical}")
-
     with col3:
         cities = startup_df["City"].dropna().unique().tolist()
 
@@ -216,11 +220,12 @@ if option == "Overall Analysis":
     load_overall_analysis()
 
 elif option == "Startup":
-    st.title("Startup Analysis")
     selected_startup=st.sidebar.selectbox("Select Startup",sorted(df["Startup"].unique().tolist()))
     butn1=st.sidebar.button("Find Startup Detail")
     if butn1:
         load_startup(selected_startup)
+    else:
+        startup_overview()
 else:
     st.title("Invester Analysis")
     selected_investor=st.sidebar.selectbox("Select Invester",sorted(df["Investors"].str.split(",").explode().str.strip().unique().tolist()))
