@@ -1,4 +1,4 @@
-# Indian Starting Funding Analysis 
+# Indian Startup Funding Analysis 
 
 I created a basic Dashboad or analysis of indian startup funding with the help of :
 - Python for programming
