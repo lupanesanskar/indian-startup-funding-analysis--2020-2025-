@@ -296,7 +296,7 @@ def load_investor(investor):
         st.subheader("Year by Year Investment")
         year_investment=df[df["Investors"].str.contains(investor)].groupby("Year")["Amount(Crores)"].sum()
         fig2,ax2=plt.subplots()
-        ax2.plot(year_investment.index,year_investment.values)
+        ax2.plot(year_investment.index,year_investment.values,marker="o")
         st.pyplot(fig2)
 
 
