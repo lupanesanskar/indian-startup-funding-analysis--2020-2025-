@@ -218,6 +218,44 @@ def load_startup(startup):
     st.pyplot(fig6)
 
 
+def investor_overview():
+    investor_data = df[["Investors","Amount(Crores)","Startup"]].copy()
+    investor_data["Investors"] = investor_data["Investors"].str.split(",")
+    investor_data = investor_data.explode("Investors")
+    investor_data["Investors"] = investor_data["Investors"].str.strip()
+    col1,col2,col3,col4=st.columns(4)
+    with col1:
+        no_of_investor=df["Investors"].str.split(",").explode().nunique()
+        st.metric("Total Investors",str(no_of_investor))
+    with col2:
+        st.metric("Total Investment",str(round(df["Amount(Crores)"].sum(),2))+"Cr")
+
+    with col3:
+        active_investor=investor_data["Investors"].value_counts().head(1).index[0]
+        st.metric("Active Investor",active_investor)
+    with col4:
+        st.metric("Top Investor by Amount",investor_data.groupby("Investors")["Amount(Crores)"].sum().idxmax())
+
+    top_investors = (
+    investor_data.groupby("Investors")
+    .agg(
+        Total_Investment=("Amount(Crores)", "sum"),
+        Startups_Invested=("Startup", "nunique")
+        ).sort_values("Total_Investment", ascending=False).head(10))
+    col1,col2=st.columns(2)
+    with col1:
+        st.subheader("Top 10 Investors")
+        st.dataframe(top_investors)
+    with col2:
+        st.subheader("Year-wise Investment")
+        yearly_investment=df.groupby("Year")["Amount(Crores)"].sum()
+        fig1,ax1=plt.subplots()
+        ax1.bar(yearly_investment.index,yearly_investment.values)
+        ax1.set_xlabel("Year")
+        ax1.set_ylabel("Total Investment (Crores)")
+        ax1.set_title("Year-wise Investment")
+        st.pyplot(fig1)
+
 def load_investor(investor):
     st.title(investor)
 
@@ -232,6 +270,7 @@ def load_investor(investor):
         
         st.subheader("Biggest Investments by {}".format(investor))
         large_investments=df[df["Investors"].str.contains("Y Combinator")].groupby("Startup")["Amount(Crores)"].sum().sort_values(ascending=False).head()
+        # large_investments=df[df["Investors"].str.contains("Y Combinator")].sort_values("Amount(Crores)",ascending=False)[["Startup","Date","InvestmentType","Amount(Crores)"]].set_index("Startup").head(10)
         st.dataframe(large_investments)
 
     with col2:
@@ -259,6 +298,8 @@ def load_investor(investor):
         fig2,ax2=plt.subplots()
         ax2.plot(year_investment.index,year_investment.values)
         st.pyplot(fig2)
+
+
 option=st.sidebar.selectbox("Select One",["Overall Analysis","Startup","Invester"])
 
 if option == "Overall Analysis":
@@ -277,3 +318,5 @@ else:
     butn2=st.sidebar.button("Find Invester Detail")
     if butn2:
         load_investor(selected_investor)
+    else:
+        investor_overview()
