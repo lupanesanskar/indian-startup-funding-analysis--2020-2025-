@@ -47,7 +47,7 @@ def load_overall_analysis():
     year_options = ["All Years", 2020, 2021, 2022, 2023, 2024, 2025]
 
     fig3 ,ax3=plt.subplots(figsize=(14, 6))
-    ax3.plot(temp_df["X-axis"],temp_df["Amount(Crores)"])
+    ax3.plot(temp_df["X-axis"],temp_df["Amount(Crores)"],marker='o')
     if select_year == "All Years":
         step = 3
     else:
